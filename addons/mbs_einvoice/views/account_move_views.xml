@@ -1,0 +1,40 @@
+<odoo>
+    <record id="mbs_einvoice_account_move_form" model="ir.ui.view">
+        <field name="name">account.move.form.mbs.einvoice</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_mbs_prepare_einvoice" type="object" string="Preparer e-facture" class="btn-secondary" invisible="move_type not in ('out_invoice','out_refund') or state != 'posted'"/>
+                <button name="action_mbs_mark_einvoice_sent" type="object" string="Marquer envoyee" invisible="mbs_einvoice_state != 'ready'"/>
+                <button name="action_mbs_mark_einvoice_accepted" type="object" string="Acceptee" invisible="mbs_einvoice_state != 'sent'"/>
+                <button name="action_mbs_mark_einvoice_rejected" type="object" string="Rejetee" invisible="mbs_einvoice_state != 'sent'"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="E-facture Maroc" invisible="move_type not in ('out_invoice','out_refund')">
+                    <group>
+                        <group>
+                            <field name="mbs_einvoice_state"/>
+                            <field name="mbs_einvoice_schema_version"/>
+                            <field name="mbs_einvoice_external_id"/>
+                        </group>
+                        <group>
+                            <field name="mbs_einvoice_sent_at"/>
+                            <field name="mbs_einvoice_response"/>
+                        </group>
+                    </group>
+                    <field name="mbs_einvoice_payload" widget="text" readonly="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_mbs_einvoices" model="ir.actions.act_window">
+        <field name="name">Factures electroniques</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="domain">[("move_type", "in", ("out_invoice", "out_refund"))]</field>
+    </record>
+
+    <menuitem id="menu_mbs_einvoice" name="Facturation electronique" parent="mbs_core.menu_mbs_root" action="action_mbs_einvoices" sequence="25"/>
+</odoo>
