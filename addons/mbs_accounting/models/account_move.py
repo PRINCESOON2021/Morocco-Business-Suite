@@ -26,6 +26,7 @@ class AccountMove(models.Model):
         "partner_id.mbs_ice",
         "invoice_date",
         "invoice_date_due",
+        "invoice_line_ids.display_type",
         "invoice_line_ids.tax_ids",
         "invoice_line_ids.price_subtotal",
     )
@@ -45,9 +46,10 @@ class AccountMove(models.Model):
                 if not move.invoice_date_due and move.move_type in ("out_invoice", "in_invoice"):
                     warnings.append("Echeance non renseignee.")
 
-                taxable_lines = move.invoice_line_ids.filtered(
-                    lambda line: not line.display_type and line.price_subtotal
+                commercial_lines = move.invoice_line_ids.filtered(
+                    lambda line: line.display_type not in ("line_section", "line_note")
                 )
+                taxable_lines = commercial_lines.filtered(lambda line: line.price_subtotal)
                 if taxable_lines and not any(taxable_lines.mapped("tax_ids")):
                     warnings.append("Aucune taxe detectee sur les lignes facturables.")
 
