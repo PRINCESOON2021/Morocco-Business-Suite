@@ -1,0 +1,37 @@
+<odoo>
+    <record id="view_mbs_accounting_report_wizard_form" model="ir.ui.view">
+        <field name="name">mbs.accounting.report.wizard.form</field>
+        <field name="model">mbs.accounting.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Rapports comptables Maroc">
+                <group>
+                    <group>
+                        <field name="report_type"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="journal_ids" widget="many2many_tags"/>
+                        <field name="partner_ids" widget="many2many_tags"/>
+                        <field name="only_posted"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_open_report" type="object" string="Afficher" class="btn-primary"/>
+                    <button string="Annuler" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mbs_accounting_reports" model="ir.actions.act_window">
+        <field name="name">Rapports comptables Maroc</field>
+        <field name="res_model">mbs.accounting.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_mbs_root" name="Morocco Business Suite" sequence="10"/>
+    <menuitem id="menu_mbs_accounting" name="Comptabilite Maroc" parent="menu_mbs_root" sequence="20"/>
+    <menuitem id="menu_mbs_accounting_reports" name="Rapports" parent="menu_mbs_accounting" action="action_mbs_accounting_reports" sequence="10"/>
+</odoo>
