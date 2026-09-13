@@ -1,1 +1,1 @@
-# Module Marches / Appels d'offres Maroc.
+from . import models
