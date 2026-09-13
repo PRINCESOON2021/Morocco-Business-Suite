@@ -11,12 +11,13 @@ class AccountMove(models.Model):
         ],
         string="Controle MBS",
         compute="_compute_mbs_controls",
-        store=False,
+        store=True,
+        index=True,
     )
     mbs_control_message = fields.Text(
         string="Anomalies detectees",
         compute="_compute_mbs_controls",
-        store=False,
+        store=True,
     )
 
     @api.depends(
@@ -40,6 +41,9 @@ class AccountMove(models.Model):
 
                 if not move.invoice_date:
                     warnings.append("Date de facture absente.")
+
+                if not move.invoice_date_due and move.move_type in ("out_invoice", "in_invoice"):
+                    warnings.append("Echeance non renseignee.")
 
                 taxable_lines = move.invoice_line_ids.filtered(
                     lambda line: not line.display_type and line.price_subtotal
