@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mbs_tender_user,mbs.tender.user,model_mbs_tender,base.group_user,1,1,1,1
+access_mbs_tender_contract_user,mbs.tender.contract.user,model_mbs_tender_contract,base.group_user,1,1,1,1
+access_mbs_tender_contract_line_user,mbs.tender.contract.line.user,model_mbs_tender_contract_line,base.group_user,1,1,1,1
+access_mbs_tender_statement_user,mbs.tender.statement.user,model_mbs_tender_statement,base.group_user,1,1,1,1
+access_mbs_tender_statement_line_user,mbs.tender.statement.line.user,model_mbs_tender_statement_line,base.group_user,1,1,1,1
