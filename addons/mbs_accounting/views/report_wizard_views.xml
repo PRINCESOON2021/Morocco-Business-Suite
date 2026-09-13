@@ -31,7 +31,34 @@
         <field name="target">new</field>
     </record>
 
+    <record id="action_mbs_accounting_controls" model="ir.actions.act_window">
+        <field name="name">Factures a verifier</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="domain">[("move_type", "in", ("out_invoice", "out_refund", "in_invoice", "in_refund")), ("mbs_control_state", "=", "warning")]</field>
+        <field name="context">{"search_default_posted": 1}</field>
+    </record>
+
+    <record id="action_mbs_receivables" model="ir.actions.act_window">
+        <field name="name">Creances clients ouvertes</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="domain">[("parent_state", "=", "posted"), ("account_id.account_type", "=", "asset_receivable"), ("reconciled", "=", False)]</field>
+        <field name="context">{"search_default_group_by_partner": 1}</field>
+    </record>
+
+    <record id="action_mbs_payables" model="ir.actions.act_window">
+        <field name="name">Dettes fournisseurs ouvertes</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="domain">[("parent_state", "=", "posted"), ("account_id.account_type", "=", "liability_payable"), ("reconciled", "=", False)]</field>
+        <field name="context">{"search_default_group_by_partner": 1}</field>
+    </record>
+
     <menuitem id="menu_mbs_root" name="Morocco Business Suite" sequence="10"/>
     <menuitem id="menu_mbs_accounting" name="Comptabilite Maroc" parent="menu_mbs_root" sequence="20"/>
+    <menuitem id="menu_mbs_accounting_controls" name="Centre de controle" parent="menu_mbs_accounting" action="action_mbs_accounting_controls" sequence="5"/>
     <menuitem id="menu_mbs_accounting_reports" name="Rapports" parent="menu_mbs_accounting" action="action_mbs_accounting_reports" sequence="10"/>
+    <menuitem id="menu_mbs_receivables" name="Creances clients" parent="menu_mbs_accounting" action="action_mbs_receivables" sequence="20"/>
+    <menuitem id="menu_mbs_payables" name="Dettes fournisseurs" parent="menu_mbs_accounting" action="action_mbs_payables" sequence="30"/>
 </odoo>
