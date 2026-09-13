@@ -1,0 +1,3 @@
+<odoo>
+    <menuitem id="menu_mbs_root" name="Morocco Business Suite" sequence="10"/>
+</odoo>
