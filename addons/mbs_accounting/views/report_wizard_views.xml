@@ -55,8 +55,7 @@
         <field name="context">{"search_default_group_by_partner": 1}</field>
     </record>
 
-    <menuitem id="menu_mbs_root" name="Morocco Business Suite" sequence="10"/>
-    <menuitem id="menu_mbs_accounting" name="Comptabilite Maroc" parent="menu_mbs_root" sequence="20"/>
+    <menuitem id="menu_mbs_accounting" name="Comptabilite Maroc" parent="mbs_core.menu_mbs_root" sequence="20"/>
     <menuitem id="menu_mbs_accounting_controls" name="Centre de controle" parent="menu_mbs_accounting" action="action_mbs_accounting_controls" sequence="5"/>
     <menuitem id="menu_mbs_accounting_reports" name="Rapports" parent="menu_mbs_accounting" action="action_mbs_accounting_reports" sequence="10"/>
     <menuitem id="menu_mbs_receivables" name="Creances clients" parent="menu_mbs_accounting" action="action_mbs_receivables" sequence="20"/>
