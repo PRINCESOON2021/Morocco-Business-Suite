@@ -28,7 +28,7 @@ class MbsAccountingReportWizard(models.TransientModel):
 
     def _base_domain(self):
         self.ensure_one()
-        domain = [("display_type", "=", False)]
+        domain = []
         if self.date_from:
             domain.append(("date", ">=", self.date_from))
         if self.date_to:
@@ -48,31 +48,38 @@ class MbsAccountingReportWizard(models.TransientModel):
 
         domain = self._base_domain()
         title = dict(self._fields["report_type"].selection).get(self.report_type)
+        context = {}
 
         if self.report_type in ("trial_balance", "general_ledger"):
             domain.append(("account_id.deprecated", "=", False))
+            context["group_by"] = ["account_id"]
         elif self.report_type == "customer_ledger":
             domain.extend([
                 ("account_id.account_type", "=", "asset_receivable"),
                 ("partner_id", "!=", False),
             ])
+            context["group_by"] = ["partner_id"]
         elif self.report_type == "supplier_ledger":
             domain.extend([
                 ("account_id.account_type", "=", "liability_payable"),
                 ("partner_id", "!=", False),
             ])
+            context["group_by"] = ["partner_id"]
         elif self.report_type == "receivables":
             domain.extend([
                 ("account_id.account_type", "=", "asset_receivable"),
                 ("reconciled", "=", False),
             ])
+            context["group_by"] = ["partner_id"]
         elif self.report_type == "payables":
             domain.extend([
                 ("account_id.account_type", "=", "liability_payable"),
                 ("reconciled", "=", False),
             ])
+            context["group_by"] = ["partner_id"]
         elif self.report_type == "vat":
             domain.append(("tax_line_id", "!=", False))
+            context["group_by"] = ["tax_line_id"]
 
         return {
             "type": "ir.actions.act_window",
@@ -80,12 +87,5 @@ class MbsAccountingReportWizard(models.TransientModel):
             "res_model": "account.move.line",
             "view_mode": "list,pivot,graph",
             "domain": domain,
-            "context": {
-                "search_default_group_by_account": 1
-                if self.report_type in ("trial_balance", "general_ledger")
-                else 0,
-                "search_default_group_by_partner": 1
-                if self.report_type in ("customer_ledger", "supplier_ledger", "receivables", "payables")
-                else 0,
-            },
+            "context": context,
         }
