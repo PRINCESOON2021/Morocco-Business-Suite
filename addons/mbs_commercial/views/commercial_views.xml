@@ -27,6 +27,22 @@
         </field>
     </record>
 
+    <record id="action_mbs_customers" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[("customer_rank", ">", 0)]</field>
+        <field name="context">{"default_customer_rank": 1}</field>
+    </record>
+
+    <record id="action_mbs_suppliers" model="ir.actions.act_window">
+        <field name="name">Fournisseurs</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[("supplier_rank", ">", 0)]</field>
+        <field name="context">{"default_supplier_rank": 1}</field>
+    </record>
+
     <record id="action_mbs_sales_orders" model="ir.actions.act_window">
         <field name="name">Devis et commandes clients</field>
         <field name="res_model">sale.order</field>
@@ -66,6 +82,8 @@
     </record>
 
     <menuitem id="menu_mbs_commercial" name="Gestion commerciale" parent="mbs_core.menu_mbs_root" sequence="10"/>
+    <menuitem id="menu_mbs_customers" name="Clients" parent="menu_mbs_commercial" action="action_mbs_customers" sequence="5"/>
+    <menuitem id="menu_mbs_suppliers" name="Fournisseurs" parent="menu_mbs_commercial" action="action_mbs_suppliers" sequence="6"/>
     <menuitem id="menu_mbs_sales_orders" name="Ventes" parent="menu_mbs_commercial" action="action_mbs_sales_orders" sequence="10"/>
     <menuitem id="menu_mbs_sales_controls" name="Ventes a verifier" parent="menu_mbs_commercial" action="action_mbs_sales_controls" sequence="15"/>
     <menuitem id="menu_mbs_purchase_orders" name="Achats" parent="menu_mbs_commercial" action="action_mbs_purchase_orders" sequence="20"/>
