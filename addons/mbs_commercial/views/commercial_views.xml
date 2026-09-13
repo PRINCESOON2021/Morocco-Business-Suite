@@ -65,7 +65,7 @@
         <field name="view_mode">kanban,list,form</field>
     </record>
 
-    <menuitem id="menu_mbs_commercial" name="Gestion commerciale" parent="mbs_accounting.menu_mbs_root" sequence="10"/>
+    <menuitem id="menu_mbs_commercial" name="Gestion commerciale" parent="mbs_core.menu_mbs_root" sequence="10"/>
     <menuitem id="menu_mbs_sales_orders" name="Ventes" parent="menu_mbs_commercial" action="action_mbs_sales_orders" sequence="10"/>
     <menuitem id="menu_mbs_sales_controls" name="Ventes a verifier" parent="menu_mbs_commercial" action="action_mbs_sales_controls" sequence="15"/>
     <menuitem id="menu_mbs_purchase_orders" name="Achats" parent="menu_mbs_commercial" action="action_mbs_purchase_orders" sequence="20"/>
