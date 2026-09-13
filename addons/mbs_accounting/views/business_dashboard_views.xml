@@ -1,0 +1,43 @@
+<odoo>
+    <record id="view_mbs_business_dashboard_form" model="ir.ui.view">
+        <field name="name">mbs.business.dashboard.form</field>
+        <field name="model">mbs.business.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Situation de mon entreprise" create="0" delete="0">
+                <header>
+                    <button name="action_refresh" type="object" string="Actualiser" class="btn-primary"/>
+                    <button name="action_open_overdue_customers" type="object" string="Voir les retards clients"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <group string="Finance">
+                        <field name="invoiced_revenue" readonly="1"/>
+                        <field name="open_receivables" readonly="1"/>
+                        <field name="open_payables" readonly="1"/>
+                        <field name="overdue_customer_count" readonly="1"/>
+                    </group>
+                    <group string="Actions a traiter">
+                        <field name="invoice_warning_count" readonly="1"/>
+                        <field name="sale_warning_count" readonly="1"/>
+                        <field name="purchase_warning_count" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mbs_business_dashboard" model="ir.actions.act_window">
+        <field name="name">Situation de mon entreprise</field>
+        <field name="res_model">mbs.business.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_mbs_business_dashboard" name="Situation de mon entreprise" parent="mbs_core.menu_mbs_root" action="action_mbs_business_dashboard" sequence="1"/>
+</odoo>
