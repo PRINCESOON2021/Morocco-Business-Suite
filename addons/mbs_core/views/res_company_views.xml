@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mbs_res_company_form" model="ir.ui.view">
+        <field name="name">res.company.form.mbs.maroc</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="mbs_ice"/>
+                <field name="mbs_if"/>
+                <field name="mbs_rc"/>
+                <field name="mbs_cnss"/>
+                <field name="mbs_patente"/>
+                <field name="mbs_fiscal_year_label"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
