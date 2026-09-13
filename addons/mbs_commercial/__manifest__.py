@@ -1,6 +1,6 @@
 {
     "name": "MBS Gestion Commerciale Maroc",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "summary": "Ventes, achats, stock et facturation pour Morocco Business Suite",
     "category": "Sales",
     "license": "LGPL-3",
@@ -11,7 +11,9 @@
         "stock_account",
         "account"
     ],
-    "data": [],
+    "data": [
+        "views/commercial_views.xml"
+    ],
     "installable": True,
     "application": True
 }
