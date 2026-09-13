@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_mbs_accounting_report_wizard,mbs.accounting.report.wizard,model_mbs_accounting_report_wizard,account.group_account_user,1,1,1,1
+access_mbs_business_dashboard,mbs.business.dashboard,model_mbs_business_dashboard,account.group_account_user,1,1,1,1
