@@ -1,0 +1,219 @@
+<odoo>
+    <record id="view_mbs_tender_list" model="ir.ui.view">
+        <field name="name">mbs.tender.list</field>
+        <field name="model">mbs.tender</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="authority_id"/>
+                <field name="submission_deadline"/>
+                <field name="estimated_amount"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mbs_tender_form" model="ir.ui.view">
+        <field name="name">mbs.tender.form</field>
+        <field name="model">mbs.tender</field>
+        <field name="arch" type="xml">
+            <form string="Appel d'offres">
+                <header>
+                    <button name="action_mark_preparing" type="object" string="Preparation" invisible="state != 'draft'"/>
+                    <button name="action_mark_submitted" type="object" string="Soumis" class="btn-primary" invisible="state not in ('draft','preparing')"/>
+                    <button name="action_mark_awarded" type="object" string="Attribue" invisible="state != 'submitted'"/>
+                    <button name="action_mark_lost" type="object" string="Non retenu" invisible="state != 'submitted'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,preparing,submitted,awarded,lost"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="reference"/>
+                            <field name="name"/>
+                            <field name="authority_id"/>
+                            <field name="lot_number"/>
+                        </group>
+                        <group>
+                            <field name="publication_date"/>
+                            <field name="submission_deadline"/>
+                            <field name="estimated_amount"/>
+                            <field name="currency_id"/>
+                            <field name="source_url" widget="url"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Marches">
+                            <field name="contract_ids">
+                                <list editable="bottom">
+                                    <field name="reference"/>
+                                    <field name="name"/>
+                                    <field name="amount_untaxed"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes"><field name="notes"/></page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mbs_contract_list" model="ir.ui.view">
+        <field name="name">mbs.tender.contract.list</field>
+        <field name="model">mbs.tender.contract</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="authority_id"/>
+                <field name="date_start"/>
+                <field name="amount_untaxed"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mbs_contract_form" model="ir.ui.view">
+        <field name="name">mbs.tender.contract.form</field>
+        <field name="model">mbs.tender.contract</field>
+        <field name="arch" type="xml">
+            <form string="Marche / Contrat">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="reference"/>
+                            <field name="name"/>
+                            <field name="tender_id"/>
+                            <field name="authority_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="retention_rate"/>
+                            <field name="advance_amount"/>
+                            <field name="penalty_rate"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Bordereau des prix">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Situations">
+                            <field name="statement_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="statement_date"/>
+                                    <field name="gross_amount"/>
+                                    <field name="net_amount"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mbs_statement_list" model="ir.ui.view">
+        <field name="name">mbs.tender.statement.list</field>
+        <field name="model">mbs.tender.statement</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="authority_id"/>
+                <field name="statement_date"/>
+                <field name="gross_amount"/>
+                <field name="net_amount"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mbs_statement_form" model="ir.ui.view">
+        <field name="name">mbs.tender.statement.form</field>
+        <field name="model">mbs.tender.statement</field>
+        <field name="arch" type="xml">
+            <form string="Situation / Decompte">
+                <header>
+                    <button name="action_validate" type="object" string="Valider" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_mark_invoiced" type="object" string="Marquer facturee" invisible="state != 'validated'"/>
+                    <button name="action_mark_paid" type="object" string="Marquer payee" invisible="state != 'invoiced'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,invoiced,paid"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="contract_id"/>
+                            <field name="authority_id"/>
+                            <field name="statement_date"/>
+                        </group>
+                        <group>
+                            <field name="period_from"/>
+                            <field name="period_to"/>
+                            <field name="invoice_id"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="contract_line_id"/>
+                            <field name="name"/>
+                            <field name="quantity_period"/>
+                            <field name="quantity_contract"/>
+                            <field name="price_unit"/>
+                            <field name="subtotal" sum="Total"/>
+                        </list>
+                    </field>
+                    <group>
+                        <group/>
+                        <group>
+                            <field name="gross_amount"/>
+                            <field name="retention_amount"/>
+                            <field name="advance_recovery"/>
+                            <field name="penalties"/>
+                            <field name="net_amount"/>
+                        </group>
+                    </group>
+                    <field name="notes"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mbs_tenders" model="ir.actions.act_window">
+        <field name="name">Appels d'offres</field>
+        <field name="res_model">mbs.tender</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_mbs_contracts" model="ir.actions.act_window">
+        <field name="name">Marches / Contrats</field>
+        <field name="res_model">mbs.tender.contract</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+    </record>
+    <record id="action_mbs_statements" model="ir.actions.act_window">
+        <field name="name">Situations / Decomptes</field>
+        <field name="res_model">mbs.tender.statement</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+    </record>
+
+    <menuitem id="menu_mbs_tenders" name="Marches / Appels d'offres" parent="mbs_core.menu_mbs_root" sequence="30"/>
+    <menuitem id="menu_mbs_tenders_list" name="Appels d'offres" parent="menu_mbs_tenders" action="action_mbs_tenders" sequence="10"/>
+    <menuitem id="menu_mbs_contracts" name="Marches / Contrats" parent="menu_mbs_tenders" action="action_mbs_contracts" sequence="20"/>
+    <menuitem id="menu_mbs_statements" name="Situations / Decomptes" parent="menu_mbs_tenders" action="action_mbs_statements" sequence="30"/>
+</odoo>
