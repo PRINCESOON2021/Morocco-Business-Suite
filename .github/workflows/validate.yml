@@ -1,0 +1,48 @@
+name: Validate MBS addons
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  static-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Python
+        run: python -m compileall -q addons
+      - name: Validate XML and manifests
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+
+          errors = []
+          for path in Path('addons').rglob('*.xml'):
+              try:
+                  ET.parse(path)
+              except Exception as exc:
+                  errors.append(f'{path}: XML: {exc}')
+
+          for path in Path('addons').rglob('__manifest__.py'):
+              try:
+                  data = ast.literal_eval(path.read_text(encoding='utf-8'))
+                  if not isinstance(data, dict):
+                      raise ValueError('manifest is not a dict')
+                  for key in ('name', 'version', 'depends', 'installable'):
+                      if key not in data:
+                          raise ValueError(f'missing key {key}')
+              except Exception as exc:
+                  errors.append(f'{path}: manifest: {exc}')
+
+          if errors:
+              print('\n'.join(errors))
+              raise SystemExit(1)
+          print('Static validation OK')
+          PY
