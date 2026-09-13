@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mbs_account_move_form" model="ir.ui.view">
+        <field name="name">account.move.form.mbs.controls</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="mbs_control_state" readonly="1"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="Controle MBS" invisible="move_type == 'entry'">
+                    <field name="mbs_control_message" readonly="1" nolabel="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
