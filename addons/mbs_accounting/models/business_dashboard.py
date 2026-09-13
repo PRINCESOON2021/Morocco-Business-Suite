@@ -96,18 +96,50 @@ class MbsBusinessDashboard(models.TransientModel):
             "target": "current",
         }
 
-    def action_open_overdue_customers(self):
+    def _open_action(self, name, model, domain, view_mode="list,form,pivot,graph"):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "name": "Factures clients en retard",
-            "res_model": "account.move",
-            "view_mode": "list,form,pivot,graph",
-            "domain": [
+            "name": name,
+            "res_model": model,
+            "view_mode": view_mode,
+            "domain": domain,
+        }
+
+    def action_open_invoice_warnings(self):
+        return self._open_action(
+            "Factures a verifier",
+            "account.move",
+            [
+                ("company_id", "=", self.company_id.id),
+                ("move_type", "in", ("out_invoice", "out_refund", "in_invoice", "in_refund")),
+                ("mbs_control_state", "=", "warning"),
+            ],
+        )
+
+    def action_open_sale_warnings(self):
+        return self._open_action(
+            "Ventes a verifier",
+            "sale.order",
+            [("company_id", "=", self.company_id.id), ("mbs_control_state", "=", "warning")],
+        )
+
+    def action_open_purchase_warnings(self):
+        return self._open_action(
+            "Achats a verifier",
+            "purchase.order",
+            [("company_id", "=", self.company_id.id), ("mbs_control_state", "=", "warning")],
+        )
+
+    def action_open_overdue_customers(self):
+        return self._open_action(
+            "Factures clients en retard",
+            "account.move",
+            [
                 ("company_id", "=", self.company_id.id),
                 ("state", "=", "posted"),
                 ("move_type", "=", "out_invoice"),
                 ("payment_state", "not in", ("paid", "reversed")),
                 ("invoice_date_due", "<", fields.Date.context_today(self)),
             ],
-        }
+        )
