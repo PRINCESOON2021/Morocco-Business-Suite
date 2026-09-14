@@ -1,6 +1,6 @@
 {
     "name": "MBS Core Maroc",
-    "version": "18.0.1.1.0",
+    "version": "19.0.1.1.0",
     "summary": "Socle metier Maroc pour Morocco Business Suite",
     "category": "Localization",
     "license": "LGPL-3",
