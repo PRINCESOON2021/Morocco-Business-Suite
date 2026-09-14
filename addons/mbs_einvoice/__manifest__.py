@@ -1,6 +1,6 @@
 {
     "name": "MBS Facturation Electronique Maroc",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "summary": "Architecture de connecteur e-facture Maroc versionnee",
     "category": "Accounting/Accounting",
     "license": "LGPL-3",
