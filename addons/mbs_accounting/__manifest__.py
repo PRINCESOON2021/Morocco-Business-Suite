@@ -1,6 +1,6 @@
 {
     "name": "MBS Comptabilite Maroc",
-    "version": "18.0.1.2.0",
+    "version": "19.0.1.2.0",
     "summary": "Comptabilite marocaine, controles et reporting",
     "category": "Accounting/Accounting",
     "license": "LGPL-3",
